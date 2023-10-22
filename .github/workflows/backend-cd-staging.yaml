@@ -17,4 +17,5 @@ jobs:
         uses: actions/checkout@v3
       - run: |
           ls
+          docker compose build node-container
           echo "Buil image"
