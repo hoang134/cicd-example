@@ -50,6 +50,9 @@ app.post('/api/article', async (req, res) => {
   }
 });
 
+app.get('/', async (req, res) => {
+  res.json({mesage: "Hello"});
+});
 
 app.put('/api/article', async (req, res) => {
   const { title, content } = req.body;
