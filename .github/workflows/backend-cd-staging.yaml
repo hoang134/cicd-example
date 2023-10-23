@@ -19,4 +19,39 @@ jobs:
           ls
           echo "${{ secrets.ENV_STAGING }}" >> .env
           docker compose build node-container
+            echo "Buil image"
+  name: BE deploy staging branch
+run-name: BE deploy staging branch
+on:
+  push:
+    branches:
+      - 'staging'
+    paths:
+    - backend/**
+defaults:
+  run:
+    working-directory: ./backend
+jobs:
+  build:
+    runs-on: [self-hosted,backend-server-staging] # tag in server-dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: |
+          echo "Build"
+          ls
+          echo "${{ secrets.ENV_STAGING }}" >> .env
+          docker compose build node-container
           echo "Buil image"
+  deploy:
+    runs-on: [self-hosted,backend-server-staging] # tag in server-dev
+    needs: [ build ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: |
+          echo "Deploy"
+          ls
+          echo "${{ secrets.ENV_STAGING }}" >> .env
+          docker compose up -d
+          echo "Run image"
